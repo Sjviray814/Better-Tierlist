@@ -8,10 +8,14 @@
     <title>Better Tiermaker</title>
 </head>
 <body>
-    <canvas id="canvas" width="1340" height="590"></canvas>
+    <canvas id="canvas" width="1340" height="1090"></canvas>
     <script src="script.js"></script>
     <script src="imageElement.js"></script>
-    <input id="box" type="text" style="position:fixed;left:15px;top:560px;width:200px;height:30px;" placeholder="Enter Links Here (jpg or png)"/>
+    <script src="tiers.js"></script>
+    <input id="box" type="text" placeholder="Enter Links Here (jpg or png)"/>
+    <input id="color" type="color" value="#FFFFFF"/>
+    <input id="tierName" type="text" placeholder="Tier Name"/>
+    <button type="button" id="createTier" onclick="createTier()">Create</button>
     
 </body>
 </html>

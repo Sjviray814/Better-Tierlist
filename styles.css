@@ -4,3 +4,33 @@
 :root {
     --garbage-size: 70px;
   }
+#color{
+    position:fixed;
+    left:240px;
+    top:550px;
+    width:50px;
+    height:50px;
+}
+
+#box{
+    position:fixed;
+    left:15px;
+    top:560px;
+    width:200px;
+    height:30px;
+}
+#tierName{
+    position:fixed;
+    left:300px;
+    top:560px;
+    width:80px;
+    height:30px;
+}
+#createTier{
+    position:fixed;
+    left:390px;
+    top:570px;
+    width:54px;
+    height:20px;
+    background-color:lightgray;
+}

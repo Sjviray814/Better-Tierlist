@@ -4,9 +4,12 @@ let images = [
     'https://i1.sndcdn.com/artworks-000412038030-h21ujs-t500x500.jpg'
 ];
 let imageElements = [];
+let tiers = [];
 let mX, mY;
 
-    
+function createTier(){
+    tiers.push(new tier(document.getElementById("color").value, document.getElementById("tierName").value));
+}
     
 window.onload = function() { 
     images.forEach(imgSrc =>{
@@ -20,6 +23,9 @@ window.onclick = function(e){
     imageElements.forEach(img =>{
         img.clicked(e.pageX, e.pageY);
     });
+    tiers.forEach(tier =>{
+        tier.clicked(e.pageX, e.pageY);
+    })
 
 }
 
@@ -33,6 +39,9 @@ document.addEventListener("keydown", e => {
     if(keyDown == 'Backspace'){
         for(let img of imageElements){
             if(img.moving) img.delete();
+        }
+        for(let tier of tiers){
+            if(tier.moving) tier.delete();
         }
     }
 })
@@ -56,10 +65,16 @@ function drawEverything(){
     imageElements.forEach(img =>{
         img.draw();
     });
+    tiers.forEach(tier =>{
+        tier.draw();
+    });
 }
 function moveEverything(){
     imageElements.forEach(img =>{
         img.move();
+    });
+    tiers.forEach(tier =>{
+        tier.move();
     });
 }
 
