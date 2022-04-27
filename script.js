@@ -6,7 +6,8 @@ let images = [
 let imageElements = [];
 let mX, mY;
 
-
+    
+    
 window.onload = function() { 
     images.forEach(imgSrc =>{
         imageElements.push(new imageElement(imgSrc));
@@ -26,6 +27,15 @@ window.onmousemove = function(e){
     mX = e.pageX;
     mY = e.pageY;
 }
+
+document.addEventListener("keydown", e => {
+    keyDown = e.code; 
+    if(keyDown == 'Backspace'){
+        for(let img of imageElements){
+            if(img.moving) img.delete();
+        }
+    }
+})
 
 document.addEventListener("keyup", e => {
     keyUp = e.code;
