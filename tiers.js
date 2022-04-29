@@ -1,8 +1,8 @@
-let tierSize = 90;
+let tierSize = 80;
 class tier{
-    constructor(color, name){
-        this.x = 0;
-        this.y = 0;
+    constructor(color, name, x = 0, y = 0){
+        this.x = x;
+        this.y = y;
         this.color = color;
         this.name = name
         this.moving = false;
@@ -29,7 +29,10 @@ class tier{
     
     }
     delete(){
-        tiers.splice(tiers.indexOf(this.name), 1);
+        const index = tiers.findIndex(tier => {
+            return tier.name === this.name;
+        });
+            tiers.splice(index, 1);
     }
     move(){
         if(this.moving){

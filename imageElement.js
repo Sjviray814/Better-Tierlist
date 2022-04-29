@@ -1,10 +1,11 @@
-let imageSize = 90;
+let imageSize = 60;
 class imageElement{
-    constructor(src){
+    constructor(src, x=0, y=0){
         this.image = new Image();
 		this.image.src = src;
-        this.x = 0;
-        this.y = 0;
+        this.src = src
+        this.x = x;
+        this.y = y;
         this.moving = false;
         this.size = imageSize;
     }
@@ -26,7 +27,10 @@ class imageElement{
     
     }
     delete(){
-        imageElements.splice(imageElements.indexOf(this.src), 1);
+        const index = imageElements.findIndex(img => {
+            return img.src === this.src;
+        });
+            imageElements.splice(index, 1);
     }
     move(){
         if(this.moving){

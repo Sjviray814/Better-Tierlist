@@ -1,8 +1,6 @@
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
-let images = [
-    'https://i1.sndcdn.com/artworks-000412038030-h21ujs-t500x500.jpg'
-];
+let images = [];
 let imageElements = [];
 let tiers = [];
 let mX, mY;
@@ -15,7 +13,8 @@ window.onload = function() {
     images.forEach(imgSrc =>{
         imageElements.push(new imageElement(imgSrc));
     });
-    let framesPerSecond = 100
+    originalLayout();
+    let framesPerSecond = 100;
     setInterval(doBoth, 1000/framesPerSecond);
 }
 
@@ -37,12 +36,12 @@ window.onmousemove = function(e){
 document.addEventListener("keydown", e => {
     keyDown = e.code; 
     if(keyDown == 'Backspace'){
-        for(let img of imageElements){
+        imageElements.forEach(img => {
             if(img.moving) img.delete();
-        }
-        for(let tier of tiers){
+        });
+        tiers.forEach(tier =>{
             if(tier.moving) tier.delete();
-        }
+        })
     }
 })
 
@@ -88,3 +87,53 @@ function create(x, y, width, height, color){
     ctx.fillRect(x, y, width, height);
   }
 
+
+function save(){
+    localStorage.clear();
+    if(confirm("Do you want to save this list? This will override previously saved lists.")){
+        tiers.forEach(tier =>{
+            window.localStorage.setItem("111" + tier.name, JSON.stringify(tier));
+        });
+        images.forEach(image =>{
+            window.localStorage.setItem("222" + image, image);
+        });
+        imageElements.forEach(elem =>{
+            window.localStorage.setItem("333" + elem.src, JSON.stringify(elem));
+        });
+    }
+}
+
+function load(){
+    if(confirm("Do you want to load your saved list?")){
+        tiers = [];
+        images = [];
+        imageElements = [];
+        Object.keys(localStorage).forEach(function(key){
+            let element = localStorage.getItem(key);
+            let parsed = JSON.parse(element);
+            if(key[0] == "1") tiers.push(new tier(parsed.color, parsed.name, parsed.x, parsed.y));
+            if(key[0] == "2") images.push(element);
+            if(key[0] == "3") imageElements.push(new imageElement(parsed.src, parsed.x, parsed.y));
+         });
+        // tiers = JSON.parse(localStorage.getItem("tiers") || "[]");
+        // images = JSON.parse(localStorage.getItem("images") || "[]");
+        // imageElements = JSON.parse(localStorage.getItem("imageElements") || "[]");
+    }
+}
+
+function clear(){
+    if(confirm("Do you want to clear your tiers and images?")){
+        tiers = [];
+        images = [];
+        imageElements = [];
+    }
+}
+
+function reset(){
+    if(confirm("Do you want to reset to default?")){
+        tiers = [];
+        images = [];
+        imageElements = [];
+        originalLayout();
+    }
+}
