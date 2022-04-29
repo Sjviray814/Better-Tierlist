@@ -50,7 +50,7 @@ document.addEventListener("keyup", e => {
     if(keyUp == "Enter") getText();
 });
 function getText(){
-    let regex = /.*/ // uncomment to find only jpg or png: /(https?:\/\/.*\.(?:png|jpg))/
+    let regex = /(https?:\/\/.*\.(?:png|jpg))/ ///.*/ // uncomment to find only jpg or png: /(https?:\/\/.*\.(?:png|jpg))/
     let text = document.getElementById("box").value;
     if(regex.test(text)) {
         document.getElementById("box").value = "";
