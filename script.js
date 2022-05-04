@@ -4,6 +4,8 @@ let images = [];
 let imageElements = [];
 let tiers = [];
 let mX, mY;
+let regex = /(https?:\/\/.*\.(?:png|jpg))/ ///.*/ // uncomment to find only jpg or png: /(https?:\/\/.*\.(?:png|jpg))/
+
 
 function createTier(){
     tiers.push(new tier(document.getElementById("color").value, document.getElementById("tierName").value));
@@ -50,7 +52,6 @@ document.addEventListener("keyup", e => {
     if(keyUp == "Enter") getText();
 });
 function getText(){
-    let regex = /(https?:\/\/.*\.(?:png|jpg))/ ///.*/ // uncomment to find only jpg or png: /(https?:\/\/.*\.(?:png|jpg))/
     let text = document.getElementById("box").value;
     if(regex.test(text)) {
         document.getElementById("box").value = "";
@@ -135,5 +136,31 @@ function reset(){
         images = [];
         imageElements = [];
         originalLayout();
+    }
+}
+
+function getArr(){
+    let arr = [];
+    tiers.forEach(tier =>{
+        arr.push(tier.color, tier.name, tier.x, tier.y);
+    });
+    imageElements.forEach(elem =>{
+        arr.push(elem.src, elem.x, elem.y);
+    });
+    console.log(arr);
+}
+
+function loadFromArr(arr){
+    imageElements = [];
+    tiers = [];
+    for(let i = 0; i<arr.length; i++){
+        if(typeof arr[i] == "string"){
+            if(typeof arr[i+1] == "string"){
+                tiers.push(new tier(arr[i], arr[i+1], arr[i+2], arr[i+3]));
+            }
+            else if(regex.test(arr[i])){
+                imageElements.push(new imageElement(arr[i], arr[i+1], arr[i+2]));
+            }
+        }
     }
 }

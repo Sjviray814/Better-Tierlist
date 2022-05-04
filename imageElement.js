@@ -1,4 +1,4 @@
-let imageSize = 60;
+let imageSize = 65;
 class imageElement{
     constructor(src, x=0, y=0){
         this.image = new Image();
@@ -10,7 +10,9 @@ class imageElement{
         this.size = imageSize;
     }
     draw(){
-        ctx.drawImage(this.image, this.x, this.y, this.size, this.size);
+        //this.image.onload = function(){
+            ctx.drawImage(this.image, this.x, this.y, this.size, this.size);
+        //}
     }
     clicked(clickX, clickY){
         if(!this.moving){
