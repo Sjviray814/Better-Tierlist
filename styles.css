@@ -50,7 +50,7 @@
     height:20px;
     background-color:lightgray; 
 }
-#reset{
+#saves{
     position:fixed;
     left:15px;
     top:370px;
@@ -58,11 +58,11 @@
     height:20px;
     background-color:lightgray; 
 }
-#clear{
+#saveName{
     position:fixed;
     left:15px;
     top:395px;
-    width:50px;
+    width:70px;
     height:20px;
     background-color:lightgray; 
 }

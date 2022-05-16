@@ -5,6 +5,7 @@ let imageElements = [];
 let tiers = [];
 let mX, mY;
 let regex = /(https?:\/\/.*\.(?:png|jpg))/ ///.*/ // uncomment to find only jpg or png: /(https?:\/\/.*\.(?:png|jpg))/
+let saveName = document.getElementById('saveName');
 
 
 function createTier(){
@@ -16,6 +17,7 @@ window.onload = function() {
         imageElements.push(new imageElement(imgSrc));
     });
     originalLayout();
+    updateChoices();
     let framesPerSecond = 100;
     setInterval(doBoth, 1000/framesPerSecond);
 }
@@ -88,37 +90,52 @@ function create(x, y, width, height, color){
     ctx.fillRect(x, y, width, height);
   }
 
+function updateChoices(){
+    let saves = document.getElementById("saves");
+    saves.innerText = null;
+    Object.keys(localStorage).forEach(function(key){
+        let option = document.createElement('option');
+        option.text = option.value = key;
+        saves.add(option, 0);
+    });
+}
 
 function save(){
-    localStorage.clear();
-    if(confirm("Do you want to save this list? This will override previously saved lists.")){
+    if(confirm("Do you want to save this list?")){
+        let arr = [];
         tiers.forEach(tier =>{
-            window.localStorage.setItem("111" + tier.name, JSON.stringify(tier));
-        });
-        images.forEach(image =>{
-            window.localStorage.setItem("222" + image, image);
+            arr.push(tier.color, tier.name, tier.x, tier.y);
         });
         imageElements.forEach(elem =>{
-            window.localStorage.setItem("333" + elem.src, JSON.stringify(elem));
+            arr.push(elem.src, elem.x, elem.y);
         });
+        window.localStorage.setItem(document.getElementById("saveName").value, arr.join("|||"));
     }
+    updateChoices();
+}
+
+function clearAll(){
+    window.localStorage.clear();
 }
 
 function load(){
-    if(confirm("Do you want to load your saved list?")){
+    if(confirm("Do you want to load this saved list?")){
         tiers = [];
         images = [];
         imageElements = [];
-        Object.keys(localStorage).forEach(function(key){
-            let element = localStorage.getItem(key);
-            let parsed = JSON.parse(element);
-            if(key[0] == "1") tiers.push(new tier(parsed.color, parsed.name, parsed.x, parsed.y));
-            if(key[0] == "2") images.push(element);
-            if(key[0] == "3") imageElements.push(new imageElement(parsed.src, parsed.x, parsed.y));
-         });
-        // tiers = JSON.parse(localStorage.getItem("tiers") || "[]");
-        // images = JSON.parse(localStorage.getItem("images") || "[]");
-        // imageElements = JSON.parse(localStorage.getItem("imageElements") || "[]");
+        let selected = document.getElementById('saves').value;
+        let str = window.localStorage.getItem(selected);
+        let arr = str.split("|||");
+        for(let i = 0; i<arr.length; i++){
+            if(typeof arr[i] == "string" && !parseInt(arr[i])){
+                if(!parseInt(arr[i]) && !parseInt(arr[i+1])){
+                    tiers.push(new tier(arr[i], arr[i+1], parseInt(arr[i+2]), parseInt(arr[i+3])));
+                }
+                else if(!parseInt(arr[i]) && parseInt(arr[i+1] && parseInt(arr[i-1]))){
+                    imageElements.push(new imageElement(arr[i], parseInt(arr[i+1]), parseInt(arr[i+2])));
+                }
+            }
+        }
     }
 }
 
