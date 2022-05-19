@@ -55,7 +55,7 @@ document.addEventListener("keyup", e => {
 });
 function getText(){
     let text = document.getElementById("box").value;
-    if(regex.test(text)) {
+    if(regex.test(text) || text.includes("jpeg")) {
         document.getElementById("box").value = "";
         imageElements.push(new imageElement(text));
     }
@@ -156,28 +156,30 @@ function reset(){
     }
 }
 
-function getArr(){
-    let arr = [];
-    tiers.forEach(tier =>{
-        arr.push(tier.color, tier.name, tier.x, tier.y);
-    });
-    imageElements.forEach(elem =>{
-        arr.push(elem.src, elem.x, elem.y);
-    });
-    console.log(arr);
+function copy(){
+    let selected = document.getElementById('saves').value;
+    let str = window.localStorage.getItem(selected);
+    document.getElementById('saveName').value = str;
 }
 
-function loadFromArr(arr){
-    imageElements = [];
-    tiers = [];
-    for(let i = 0; i<arr.length; i++){
-        if(typeof arr[i] == "string"){
-            if(typeof arr[i+1] == "string"){
-                tiers.push(new tier(arr[i], arr[i+1], arr[i+2], arr[i+3]));
-            }
-            else if(regex.test(arr[i])){
-                imageElements.push(new imageElement(arr[i], arr[i+1], arr[i+2]));
+function bigLoad(str){
+    let arr = str.split("|||");
+        for(let i = 0; i<arr.length; i++){
+            if(typeof arr[i] == "string" && !parseInt(arr[i])){
+                if(!parseInt(arr[i]) && !parseInt(arr[i+1])){
+                    tiers.push(new tier(arr[i], arr[i+1], parseInt(arr[i+2]), parseInt(arr[i+3])));
+                }
+                else if(!parseInt(arr[i]) && parseInt(arr[i+1] && parseInt(arr[i-1]))){
+                    imageElements.push(new imageElement(arr[i], parseInt(arr[i+1]), parseInt(arr[i+2])));
+                }
             }
         }
+}
+
+function erase(){
+    if(confirm("Do you want to erase this list?")){
+        let selected = document.getElementById('saves').value;
+        window.localStorage.removeItem(selected);
+        window.location.reload();
     }
 }
