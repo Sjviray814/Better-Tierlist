@@ -40,20 +40,5 @@ class imageElement{
             this.y = mY - this.size/2;
         }
     }
-    nudge(direction){
-        switch(direction){
-            case "up":
-                this.y -= 1;
-                break;
-            case "down":
-                this.y += 1;
-                break;
-            case "left":
-                this.x -= 1;
-                break;
-            case "right":
-                this.x += 1;
-                break;
-        }
-    }
+    
 }

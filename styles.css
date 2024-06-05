@@ -1,6 +1,5 @@
-html, body {
-    margin: 0 !important;
-    padding: 0 !important;
+#canvas{
+    border: 3px solid black;
 }
 :root {
     --garbage-size: 70px;
