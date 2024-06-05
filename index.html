@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Better Tiermaker</title>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script src="script.js"></script>
+    <script src="imageElement.js"></script>
+    <script src="tiers.js"></script>
+    <script src="originalLayout.js"></script>
+    <input id="box" type="text" placeholder="Enter Links Here (jpg or png)"/>
+    <input id="color" type="color" value="#FFFFFF"/>
+    <input id="tierName" type="text" placeholder="Tier Name"/>
+    <button type="button" id="createTier" onclick="createTier()">Create</button>
+    <button type="button" id="save" onclick="save()">Save</button>
+    <button type="button" id="load" onclick="load()">Load</button>
+
+    <select name="saves" id="saves"></select>
+    <input id="saveName" type="text" placeholder="Save Name"/>
+
+    <button type="button" id="copy" onclick="copy()">Copy</button>
+    <button type="erase" id="erase" onclick="erase()">Erase</button>
+
+    
+</body>
+</html>
