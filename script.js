@@ -6,6 +6,7 @@ let tiers = [];
 let mX, mY;
 let regex = /(https?:\/\/.*\.(?:png|jpg))/ ///.*/ // uncomment to find only jpg or png: /(https?:\/\/.*\.(?:png|jpg))/
 let saveName = document.getElementById('saveName');
+let currentlySelected = [];
 
 
 function createTier(){
@@ -23,11 +24,14 @@ window.onload = function() {
 }
 
 window.onclick = function(e){
+    currentlySelected = [];
     imageElements.forEach(img =>{
         img.clicked(e.pageX, e.pageY);
+        if(img.isClicked(e.pageX, e.pageY)) currentlySelected.push(img);
     });
     tiers.forEach(tier =>{
         tier.clicked(e.pageX, e.pageY);
+        if(tier.isClicked(e.pageX, e.pageY)) currentlySelected.push(tier);
     })
 
 }
@@ -47,6 +51,30 @@ document.addEventListener("keydown", e => {
             if(tier.moving) tier.delete();
         })
     }
+    else if (keyDown == 'ArrowLeft'){
+        e.preventDefault();
+        currentlySelected.forEach(selected => {
+            selected.nudge("left")
+        })
+    }
+    else if (keyDown == 'ArrowRight'){
+        e.preventDefault();
+        currentlySelected.forEach(selected => {
+            selected.nudge("right")
+        })
+    }
+    else if (keyDown == 'ArrowUp'){
+        e.preventDefault();
+        currentlySelected.forEach(selected => {
+            selected.nudge("up")
+        })
+    }
+    else if (keyDown == 'ArrowDown'){
+        e.preventDefault();
+        currentlySelected.forEach(selected => {
+            selected.nudge("down")
+        })
+    }
 })
 
 document.addEventListener("keyup", e => {
@@ -59,10 +87,15 @@ function getText(){
         document.getElementById("box").value = "";
         imageElements.push(new imageElement(text));
     }
+    else{
+        createTier();
+    }
 }
 
 
 function drawEverything(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
     create(0, 0, canvas.width, canvas.height, 'black');
     imageElements.forEach(img =>{
         img.draw();
